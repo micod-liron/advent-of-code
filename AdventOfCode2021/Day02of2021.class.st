@@ -85,6 +85,25 @@ Day02of2021 >> solveA [
 ]
 
 { #category : #'as yet unclassified' }
+Day02of2021 >> solveA2 [
+	| file switch lines commands vector |
+	file := Smalltalk imageDirectory / 'pharo-local/iceberg/micod-liron/advent-of-code/inputs/2021/02.txt'.
+	lines := (file readStream upToEnd splitOn: Character lf) allButLast.
+	commands := lines collect: [ :line |
+		{line onlyLetters asSymbol. line squeezeOutNumber}
+	].
+	switch := IdentityDictionary newFrom: {
+		#forward -> [ :d | d@0 ].
+		#down -> [ :d | 0@d ].
+		#up -> [ :d | 0@ d negated ].
+	}.
+	vector := commands inject: 0@0 into: [ :vec :com |
+		vec + ((switch at: com first) value: com second)
+	].
+	^vector x * vector y
+]
+
+{ #category : #'as yet unclassified' }
 Day02of2021 >> solveB [
 	| file stream line position depth aim switch |
 	file := Smalltalk imageDirectory / 'pharo-local/iceberg/micod-liron/advent-of-code/inputs/2021/02.txt'.
@@ -104,4 +123,24 @@ Day02of2021 >> solveB [
 		(switch at: direction) value: distance.
 	].
 	^position*depth
+]
+
+{ #category : #'as yet unclassified' }
+Day02of2021 >> solveB2 [
+	| file switch lines commands aim vector |
+	file := Smalltalk imageDirectory / 'pharo-local/iceberg/micod-liron/advent-of-code/inputs/2021/02.txt'.
+	lines := (file readStream upToEnd splitOn: Character lf) allButLast.
+	commands := lines collect: [ :line |
+		{line onlyLetters asSymbol. line squeezeOutNumber}
+	].
+	aim := 0.
+	switch := IdentityDictionary newFrom: {
+		#forward -> [ :d | d@(aim*d) ].
+		#down -> [ :d | aim := aim+d. 0@0 ].
+		#up -> [ :d | aim := aim-d. 0@0 ].
+	}.
+	vector := commands inject: 0@0 into: [ :vec :com |
+		vec + ((switch at: com first) value: com second)
+	].
+	^vector x * vector y
 ]
