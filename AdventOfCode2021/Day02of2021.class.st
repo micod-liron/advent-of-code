@@ -10,7 +10,7 @@ Class {
 { #category : #'as yet unclassified' }
 Day02of2021 >> solveA [
 	| file stream line position depth switch |
-	file := Smalltalk imageDirectory / 'pharo-local/iceberg/micod-liron/advent-of-code/inputs/2021/02.txt'.
+	file := Smalltalk imageDirectory / '02.txt'.
 	stream := file readStream.
 	position := 0.
 	depth := 0.
@@ -31,7 +31,7 @@ Day02of2021 >> solveA [
 { #category : #'as yet unclassified' }
 Day02of2021 >> solveA2 [
 	| file switch lines commands vector |
-	file := Smalltalk imageDirectory / 'pharo-local/iceberg/micod-liron/advent-of-code/inputs/2021/02.txt'.
+	file := Smalltalk imageDirectory / '02.txt'.
 	lines := (file readStream upToEnd splitOn: Character lf) allButLast.
 	commands := lines collect: [ :line |
 		{line onlyLetters asSymbol. line squeezeOutNumber}
@@ -50,7 +50,7 @@ Day02of2021 >> solveA2 [
 { #category : #'as yet unclassified' }
 Day02of2021 >> solveB [
 	| file stream line position depth aim switch |
-	file := Smalltalk imageDirectory / 'pharo-local/iceberg/micod-liron/advent-of-code/inputs/2021/02.txt'.
+	file := Smalltalk imageDirectory / '02.txt'.
 	stream := file readStream.
 	position := 0.
 	depth := 0.
@@ -72,7 +72,7 @@ Day02of2021 >> solveB [
 { #category : #'as yet unclassified' }
 Day02of2021 >> solveB2 [
 	| file switch lines commands aim vector |
-	file := Smalltalk imageDirectory / 'pharo-local/iceberg/micod-liron/advent-of-code/inputs/2021/02.txt'.
+	file := Smalltalk imageDirectory / '02.txt'.
 	lines := (file readStream upToEnd splitOn: Character lf) allButLast.
 	commands := lines collect: [ :line |
 		{line onlyLetters asSymbol. line squeezeOutNumber}

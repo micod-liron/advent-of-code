@@ -10,7 +10,7 @@ Class {
 { #category : #'as yet unclassified' }
 Day01of2021 >> loadInput [
 	| file stream line data  |
-	file := Smalltalk imageDirectory / 'pharo-local/iceberg/micod-liron/advent-of-code/2021-01.txt'.
+	file := Smalltalk imageDirectory / '01.txt'.
 	stream := file readStream.
 	data := OrderedCollection new.
 	[ line := stream nextLine. line isNotNil ] whileTrue: [
