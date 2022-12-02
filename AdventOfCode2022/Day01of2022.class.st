@@ -1,5 +1,5 @@
 "
-Solution for Advent of Code 2021 day 1
+Solution for Advent of Code 2022 day 1
 "
 Class {
 	#name : #Day01of2022,
