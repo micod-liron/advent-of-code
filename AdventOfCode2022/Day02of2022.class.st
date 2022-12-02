@@ -19,37 +19,28 @@ Day02of2022 >> parseInput [
 ]
 
 { #category : #'as yet unclassified' }
-Day02of2022 >> rankRound: pair [
-	| score handLut |
-	score := 0.
-	
-	
-]
-
-{ #category : #'as yet unclassified' }
 Day02of2022 >> solveA [
-	| pairs handLut scoreLut |
+	| pairs scoreDict |
 	pairs := self parseInput.
-	handLut := {$X -> 1. $Y -> 2. $Z -> 3} asDictionary.
-	scoreLut := {
-		#($A $Y) -> 6. #($A $X) -> 3. #($A $Z) -> 0.
-		#($B $Z) -> 6. #($B $Y) -> 3. #($B $X) -> 0.
-		#($C $X) -> 6. #($C $Z) -> 3. #($C $Y) -> 0
+	scoreDict := {
+		#($A $Y) -> 8. #($A $X) -> 4. #($A $Z) -> 3.
+		#($B $Z) -> 9. #($B $Y) -> 5. #($B $X) -> 1.
+		#($C $X) -> 7. #($C $Z) -> 6. #($C $Y) -> 2
 	} asDictionary.
-	^pairs inject: 0 into: [ :sum :pair | sum + (scoreLut at: pair) + (handLut at: pair second)]
+	^pairs inject: 0 into: [ :sum :pair | sum + (scoreDict at: pair)]
 ]
 
 { #category : #'as yet unclassified' }
 Day02of2022 >> solveB [
-	| pairs handLut scoreLut winLut loseLut drawLut lutLut |
+	| pairs handDict scoreDict winDict loseDict drawDict moveDict |
 	pairs := self parseInput.
-	handLut := {$A -> 1. $B -> 2. $C -> 3} asDictionary.
-	winLut := { $A -> $B. $B -> $C. $C -> $A} asDictionary.
-	loseLut := { $A -> $C. $B -> $A. $C -> $B } asDictionary.
-	drawLut := { $A -> $A. $B -> $B. $C -> $C } asDictionary.
-	scoreLut := { $X -> 0. $Y -> 3. $Z -> 6 } asDictionary.
-	lutLut := { $X -> loseLut. $Y -> drawLut. $Z -> winLut } asDictionary.
+	handDict := {$A -> 1. $B -> 2. $C -> 3} asDictionary.
+	winDict := { $A -> $B. $B -> $C. $C -> $A} asDictionary.
+	loseDict := { $A -> $C. $B -> $A. $C -> $B } asDictionary.
+	drawDict := { $A -> $A. $B -> $B. $C -> $C } asDictionary.
+	scoreDict := { $X -> 0. $Y -> 3. $Z -> 6 } asDictionary.
+	moveDict := { $X -> loseDict. $Y -> drawDict. $Z -> winDict } asDictionary.
 	^pairs inject: 0 into: [ :sum :pair |
-		sum + (scoreLut at: pair second) + (handLut at: ((lutLut at: pair second) at: pair first))
+		sum + (scoreDict at: pair second) + (handDict at: ((moveDict at: pair second) at: pair first))
 	]
 ]
