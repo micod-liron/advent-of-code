@@ -1,5 +1,5 @@
 "
-Solution for Advent of Code 2022 day 3
+Solution for Advent of Code 2022 day 4
 "
 Class {
 	#name : #Day04of2022,
