@@ -12,11 +12,9 @@ Day05of2022 >> loadInput [
 	| stream line crates matrix stacks moves |
 	stream := (Smalltalk imageDirectory / '05.txt') asFileReference readStream.
 	crates := OrderedCollection new.
-	8 timesRepeat: [
-		crates add: stream nextLine.
-	].
+	8 timesRepeat: [ crates add: stream nextLine. ].
 	2 timesRepeat: [ stream nextLine ].
-	matrix := Array2D 	rows: 8 columns: 9 tabulate: [ :row :col |
+	matrix := Array2D rows: 8 columns: 9 tabulate: [ :row :col |
 			(crates at: row) at: 2+((col-1)*4)
 	].
 	stacks := OrderedCollection new.
