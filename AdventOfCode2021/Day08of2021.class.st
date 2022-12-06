@@ -8,12 +8,26 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+Day08of2021 >> loadInput [
+	| stream data line |
+	stream := (Smalltalk imageDirectory / '08.txt') readStream.
+	data := OrderedCollection new.
+	[ line := stream nextLine. line isNotNil ] whileTrue: [
+		| sides |
+		sides := line splitOn: $|.
+		data add: {
+			sides first trim splitOn: Character space.
+			sides second trim splitOn: Character space
+		}
+	].
+	^data
+]
+
+{ #category : #'as yet unclassified' }
 Day08of2021 >> solveA [
-	| file lines results digits |
-	file := Smalltalk imageDirectory / '08.txt'.
-	lines := (file readStream upToEnd splitOn: Character lf) allButLast.
-	results := lines collect: [:l | ((l splitOn: $|) at: 2) trim splitOn: Character space].
-	digits := OrderedCollection new.
-	results do: [ :r | digits addAll: r ].
-	^digits count: [:e | #(2 4 3 7) includes: e size ]
+	| data |
+	data := self loadInput.
+	^data inject: 0 into: [ :sum :pair |
+		sum + (pair second count: [ :each | #(2 4 3 7) includes: each size ])
+	]
 ]
