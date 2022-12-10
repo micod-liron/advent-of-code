@@ -4,41 +4,30 @@ Solution for Advent of Code 2022 day 3
 Class {
 	#name : #Day03of2022,
 	#superclass : #Object,
+	#instVars : [
+		'input'
+	],
 	#category : #AdventOfCode2022
 }
 
 { #category : #'as yet unclassified' }
-Day03of2022 >> loadInputA [
-	| stream data line |
-	stream := (Smalltalk imageDirectory / '03.txt') asFileReference readStream.
-	data := OrderedCollection new.
+Day03of2022 >> loadInput [
+	| stream line |
+	input ifNotNil: [ ^self ].
+	stream := (Smalltalk imageDirectory / 'AdventOfCode' / '2022' / '03.txt') asFileReference readStream.
+	input := OrderedCollection new.
 	[ line := stream nextLine. line isNotNil ] whileTrue: [
-		| l r |
-		l := line first: (line size / 2).
-		r := line last: (line size / 2).
-		data add: { l. r }
-	].
-	^data
+		input add: line
+	]
 ]
 
 { #category : #'as yet unclassified' }
-Day03of2022 >> loadInputB [
-	| stream data line |
-	stream := (Smalltalk imageDirectory / '03.txt') asFileReference readStream.
-	data := OrderedCollection new.
-	[ line := stream nextLine. line isNotNil ] whileTrue: [
-		| line2 line3 |
-		line2 := stream nextLine.
-		line3 := stream nextLine.
-		data add: { line. line2. line3 }
-	].
-	^data
-]
-
-{ #category : #'as yet unclassified' }
-Day03of2022 >> solveA [
+Day03of2022 >> part1 [
 	| pairs items |
-	pairs := self loadInput.
+	self loadInput.
+	pairs := input collect: [ :line |
+		{ line first: (line size / 2). line last: (line size / 2) }
+	].
 	items := pairs collect: [ :pair |
 		| sl sr |
 		sl := pair first asSet.
@@ -53,9 +42,13 @@ Day03of2022 >> solveA [
 ]
 
 { #category : #'as yet unclassified' }
-Day03of2022 >> solveB [
+Day03of2022 >> part2 [
 	| groups badges |
-	groups := self loadInputB.
+	self loadInput.
+	groups := OrderedCollection new.
+	1 to: input size - 2 by: 3 do: [ :i |
+		groups add: { input at: i. input at: i + 1. input at: i + 2 }
+	].
 	badges := groups collect: [ :group |
 		(group first asSet intersection: (group second asSet intersection: group third asSet)) anyOne
 	].

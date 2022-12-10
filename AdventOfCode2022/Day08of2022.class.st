@@ -4,6 +4,9 @@ Solution for Advent of Code 2022 day 8
 Class {
 	#name : #Day08of2022,
 	#superclass : #Object,
+	#instVars : [
+		'input'
+	],
 	#category : #AdventOfCode2022
 }
 
@@ -21,11 +24,40 @@ Day08of2022 >> isTree: tree visibleIn: forest [
 { #category : #'as yet unclassified' }
 Day08of2022 >> loadInput [
 	| lines matrix |
-	lines := (Smalltalk imageDirectory / '08.txt') asFileReference readStream upToEnd allButLast splitOn: Character lf.
+	input ifNotNil: [ ^self ].
+	lines := (Smalltalk imageDirectory / 'AdventOfCode' / '2022' / '08.txt') asFileReference readStream upToEnd allButLast splitOn: Character lf.
 	matrix := Array2D rows: lines size columns: lines first size tabulate: [ :row :column |
 		((lines at: row) at: column) digitValue.
 	].
-	^matrix
+	input := matrix
+]
+
+{ #category : #'as yet unclassified' }
+Day08of2022 >> part1 [
+	| matrix count |
+	self loadInput.
+	matrix := input.
+	count := ((matrix rowCount * 2) + (matrix columnCount * 2)) - 4.
+	2 to: matrix columnCount - 1 do: [ :x |
+		2 to: matrix rowCount - 1 do: [ :y |
+			(self isTree: x@y visibleIn: matrix) ifTrue: [ count := count + 1 ]
+		]
+	].
+	^count
+]
+
+{ #category : #'as yet unclassified' }
+Day08of2022 >> part2 [
+	| matrix scenicScores |
+	self loadInput.
+	matrix := input.
+	scenicScores := OrderedCollection new.
+	2 to: matrix columnCount - 1 do: [ :x |
+		2 to: matrix rowCount - 1 do: [ :y |
+			scenicScores add: (self scoreTree: x@y in: matrix)
+		]
+	].
+	^scenicScores max
 ]
 
 { #category : #'as yet unclassified' }
@@ -48,30 +80,4 @@ Day08of2022 >> scoreTree: tree in: forest [
 	i := tree y.
 	[ sum := sum + 1. i := i + 1 ] doWhileTrue: [ i < forest rowCount and: [ (forest at: i at: tree x) < height ]].
 	^score*sum
-]
-
-{ #category : #'as yet unclassified' }
-Day08of2022 >> solveA [
-	| matrix count |
-	matrix := self loadInput.
-	count := ((matrix rowCount * 2) + (matrix columnCount * 2)) - 4.
-	2 to: matrix columnCount - 1 do: [ :x |
-		2 to: matrix rowCount - 1 do: [ :y |
-			(self isTree: x@y visibleIn: matrix) ifTrue: [ count := count + 1 ]
-		]
-	].
-	^count
-]
-
-{ #category : #'as yet unclassified' }
-Day08of2022 >> solveB [
-	| matrix scenicScores |
-	matrix := self loadInput.
-	scenicScores := OrderedCollection new.
-	2 to: matrix columnCount - 1 do: [ :x |
-		2 to: matrix rowCount - 1 do: [ :y |
-			scenicScores add: (self scoreTree: x@y in: matrix)
-		]
-	].
-	^scenicScores max
 ]

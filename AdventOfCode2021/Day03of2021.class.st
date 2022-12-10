@@ -4,15 +4,24 @@ Solution for Advent of Code 2021 day 3
 Class {
 	#name : #Day03of2021,
 	#superclass : #Object,
+	#instVars : [
+		'input'
+	],
 	#category : #AdventOfCode2021
 }
 
 { #category : #'as yet unclassified' }
-Day03of2021 >> solveA [
-	| lines seed result gamma epsilon mostCommon |
-	lines := ((Smalltalk imageDirectory / '03.txt') asFileReference readStream upToEnd splitOn: Character lf) allButLast.
-	seed := Array new: (lines at: 1) size withAll: 0@0.
-	result := lines inject: seed into: [ :sum :line |
+Day03of2021 >> loadInput [
+	input ifNotNil: [ ^self ].
+	input := ((Smalltalk imageDirectory / 'AdventOfCode' / '2021' / '03.txt') asFileReference readStream upToEnd splitOn: Character lf) allButLast.
+]
+
+{ #category : #'as yet unclassified' }
+Day03of2021 >> part1 [
+	| seed result gamma epsilon mostCommon |
+	self loadInput.
+	seed := Array new: (input at: 1) size withAll: 0@0.
+	result := input inject: seed into: [ :sum :line |
 		line withIndexDo: [ :c :i |
 			sum at: i put: (sum at: i) + ((c = $0) asBit @ (c = $1) asBit).
 		].
@@ -35,15 +44,15 @@ Day03of2021 >> solveA [
 ]
 
 { #category : #'as yet unclassified' }
-Day03of2021 >> solveB [
-	| lines getCount filtered i result o2 co2 |
-	lines := ((Smalltalk imageDirectory / '03.txt') asFileReference readStream upToEnd splitOn: Character lf) allButLast.
+Day03of2021 >> part2 [
+	| getCount filtered i result o2 co2 |
+	self loadInput.
 	getCount := [ :list :index |
 		list inject: 0@0 into: [ :sum :each |
 			sum + (((each at: index) = $0) asBit @ ((each at: index) = $1) asBit).
 		]
 	].
-	filtered := lines.
+	filtered := input.
 	i := 1.
 	[  filtered size > 1 and: [ i <= 12 ] ] whileTrue: [
 		| count most |
@@ -57,7 +66,7 @@ Day03of2021 >> solveB [
 	result withIndexDo: [ :bit :index |
 		o2 := o2 bitAt: index put: bit asInteger - 48
 	].
-	filtered := lines.
+	filtered := input.
 	i := 1.
 	[  filtered size > 1 and: [ i <= 12 ] ] whileTrue: [
 		| count most |

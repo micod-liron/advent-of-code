@@ -4,6 +4,9 @@ Solution for Advent of Code 2022 day 9
 Class {
 	#name : #Day09of2022,
 	#superclass : #Object,
+	#instVars : [
+		'input'
+	],
 	#category : #AdventOfCode2022
 }
 
@@ -19,27 +22,27 @@ Day09of2022 >> doMoves: moves onRope: rope [
 
 { #category : #'as yet unclassified' }
 Day09of2022 >> loadInput [
-	| stream moves line |
-	stream := (Smalltalk imageDirectory / '09.txt') asFileReference readStream.
-	moves := OrderedCollection new.
+	| stream line |
+	input ifNotNil: [ ^self ].
+	stream := (Smalltalk imageDirectory / 'AdventOfCode' / '2022' / '09.txt') asFileReference readStream.
+	input := OrderedCollection new.
 	[ line := stream nextLine. line isNotNil ] whileTrue: [
-		moves add: {line first. line numericSuffix}
-	].
-	^moves
+		input add: {line first. line numericSuffix}
+	]
 ]
 
 { #category : #'as yet unclassified' }
-Day09of2022 >> solveA [
-	| moves rope |
-	moves := self loadInput.
+Day09of2022 >> part1 [
+	| rope |
+	self loadInput.
 	rope := Rope knots: 2.
-	^self doMoves: moves onRope: rope
+	^self doMoves: input onRope: rope
 ]
 
 { #category : #'as yet unclassified' }
-Day09of2022 >> solveB [
-	| moves rope |
-	moves := self loadInput.
+Day09of2022 >> part2 [
+	| rope |
+	self loadInput.
 	rope := Rope knots: 10.
-	^self doMoves: moves onRope: rope
+	^self doMoves: input onRope: rope
 ]

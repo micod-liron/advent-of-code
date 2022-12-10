@@ -4,30 +4,32 @@ Solution for Advent of Code 2022 day 4
 Class {
 	#name : #Day04of2022,
 	#superclass : #Object,
+	#instVars : [
+		'input'
+	],
 	#category : #AdventOfCode2022
 }
 
 { #category : #'as yet unclassified' }
 Day04of2022 >> loadInput [
-	| stream data line |
-	stream := (Smalltalk imageDirectory / '04.txt') asFileReference readStream.
-	data := OrderedCollection new.
+	| stream line |
+	input ifNotNil: [ ^self ].
+	stream := (Smalltalk imageDirectory / 'AdventOfCode' / '2022' / '04.txt') asFileReference readStream.
+	input := OrderedCollection new.
 	[ line := stream nextLine. line isNotNil ] whileTrue: [
 	| sections |
 	sections := line splitOn: $,.
-		data add: {
+		input add: {
 			sections first asInteger to: sections first numericSuffix.
 			sections second asInteger to: sections second numericSuffix
 		}
-	].
-	^data
+	]
 ]
 
 { #category : #'as yet unclassified' }
-Day04of2022 >> solveA [
-	| intervals |
-	intervals := self loadInput.
-	^intervals count: [ :pair |
+Day04of2022 >> part1 [
+	self loadInput.
+	^input count: [ :pair |
 		| i1 i2 |
 		i1 := pair first.
 		i2 := pair second.
@@ -36,10 +38,9 @@ Day04of2022 >> solveA [
 ]
 
 { #category : #'as yet unclassified' }
-Day04of2022 >> solveB [
-	| intervals |
-	intervals := self loadInput.
-	^intervals count: [ :pair |
+Day04of2022 >> part2 [
+	self loadInput.
+	^input count: [ :pair |
 		| i1 i2 |
 		i1 := pair first.
 		i2 := pair second.

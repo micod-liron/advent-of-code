@@ -4,14 +4,26 @@ Solution for Advent of Code 2021 day 6
 Class {
 	#name : #Day06of2021,
 	#superclass : #Object,
+	#instVars : [
+		'input'
+	],
 	#category : #AdventOfCode2021
 }
 
 { #category : #'as yet unclassified' }
-Day06of2021 >> solveA [
-	| file lanternfish |
-	file := Smalltalk imageDirectory / '06.txt'.
-	lanternfish := (file readStream upToEnd splitOn: $,) collect: [ :e | e asInteger ].
+Day06of2021 >> loadInput [
+	| file  |
+	input ifNotNil: [ ^self ].
+	file := Smalltalk imageDirectory / 'AdventOfCode' / '2021' / '06.txt'.
+	input := (file readStream upToEnd splitOn: $,) collect: [ :e | e asInteger ].
+
+]
+
+{ #category : #'as yet unclassified' }
+Day06of2021 >> part1 [
+	| lanternfish |
+	self loadInput.
+	lanternfish := input.
 	80 timesRepeat: [
 		| newfish |
 		newfish := lanternfish count: [ :lf | lf = 0 ].
@@ -24,10 +36,10 @@ Day06of2021 >> solveA [
 ]
 
 { #category : #'as yet unclassified' }
-Day06of2021 >> solveB [
-	| file seed lanternfish |
-	file := Smalltalk imageDirectory / '06.txt'.
-	seed := (file readStream upToEnd splitOn: $,) collect: [ :e | e asInteger ].
+Day06of2021 >> part2 [
+	| seed lanternfish |
+	self loadInput.
+	seed := input.
 	lanternfish 	:= Dictionary new.
 	0 to: 8 do: [ :i | lanternfish at: i put: 0 ].
 	seed do: [ :lf | lanternfish at: lf put: (lanternfish at: lf)+1 ].

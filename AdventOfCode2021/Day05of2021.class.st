@@ -4,15 +4,19 @@ Solution for Advent of Code 2021 day 5
 Class {
 	#name : #Day05of2021,
 	#superclass : #Object,
+	#instVars : [
+		'input'
+	],
 	#category : #AdventOfCode2021
 }
 
 { #category : #'as yet unclassified' }
-Day05of2021 >> solveA [
-	| file lines coords bag |
-	file := Smalltalk imageDirectory / '05.txt'.
+Day05of2021 >> loadInput [
+	| file lines |
+	input ifNotNil: [ ^self ].
+	file := Smalltalk imageDirectory / 'AdventOfCode' / '2021' / '05.txt'.
 	lines := (file readStream upToEnd splitOn: Character lf) allButLast.
-	coords := lines collect: [ :line |
+	input := lines collect: [ :line |
 		| parts arr nums |
 		parts := line splitOn: Character space.
 		arr := Array new: 2.
@@ -21,8 +25,14 @@ Day05of2021 >> solveA [
 		nums := ((parts at: 3) splitOn: $,) collect: [:e | e asNumber].
 		arr at: 2 put: (nums at: 1)@(nums at: 2).
 		arr
-	].
-	coords := coords select: [ :l | (((l at: 1) x) = ((l at: 2) x)) or: [((l at: 1) y) = ((l at: 2) y)] ].
+	]
+]
+
+{ #category : #'as yet unclassified' }
+Day05of2021 >> part1 [
+	| coords bag |
+	self loadInput.
+	coords := input select: [ :l | (((l at: 1) x) = ((l at: 2) x)) or: [((l at: 1) y) = ((l at: 2) y)] ].
 	bag := Bag new.
 	coords do: [ :arr |
 		| p1 p2 |
@@ -44,20 +54,10 @@ Day05of2021 >> solveA [
 ]
 
 { #category : #'as yet unclassified' }
-Day05of2021 >> solveB [
-	| file lines coords bag getDiff |
-	file := Smalltalk imageDirectory / '05.txt'.
-	lines := (file readStream upToEnd splitOn: Character lf) allButLast.
-	coords := lines collect: [ :line |
-		| parts arr nums |
-		parts := line splitOn: Character space.
-		arr := Array new: 2.
-		nums := ((parts at: 1) splitOn: $,) collect: [:e | e asNumber].
-		arr at: 1 put: (nums at: 1)@(nums at: 2).
-		nums := ((parts at: 3) splitOn: $,) collect: [:e | e asNumber].
-		arr at: 2 put: (nums at: 1)@(nums at: 2).
-		arr
-	].
+Day05of2021 >> part2 [
+	| coords bag getDiff |
+	self loadInput.
+	coords := input.
 	getDiff := [ :p1 :p2 |
 		| dx dy |
 		dx := 0.

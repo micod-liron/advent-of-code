@@ -4,6 +4,9 @@ Solution for Advent of Code 2022 day 6
 Class {
 	#name : #Day06of2022,
 	#superclass : #Object,
+	#instVars : [
+		'input'
+	],
 	#category : #AdventOfCode2022
 }
 
@@ -17,15 +20,18 @@ Day06of2022 >> findDistinct: n in: signal [
 
 { #category : #'as yet unclassified' }
 Day06of2022 >> loadInput [
-	^(Smalltalk imageDirectory / '06.txt') asFileReference readStream upTo: Character lf
+	input ifNotNil: [ ^self ].
+	input := (Smalltalk imageDirectory / 'AdventOfCode' / '2022' / '06.txt') asFileReference readStream upTo: Character lf
 ]
 
 { #category : #'as yet unclassified' }
-Day06of2022 >> solveA [
-	^self findDistinct: 4 in: self loadInput
+Day06of2022 >> part1 [
+	self loadInput.
+	^self findDistinct: 4 in: input
 ]
 
 { #category : #'as yet unclassified' }
-Day06of2022 >> solveB [
-	^self findDistinct: 14 in: self loadInput
+Day06of2022 >> part2 [
+	self loadInput.
+	^self findDistinct: 14 in: input
 ]

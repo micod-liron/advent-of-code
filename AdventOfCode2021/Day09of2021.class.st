@@ -4,16 +4,27 @@ Solution for Advent of Code 2021 day 9
 Class {
 	#name : #Day09of2021,
 	#superclass : #Object,
+	#instVars : [
+		'input'
+	],
 	#category : #AdventOfCode2021
 }
 
 { #category : #'as yet unclassified' }
-Day09of2021 >> solveA [
-	| file lines arrays surface lows |
-	file := Smalltalk imageDirectory / '09.txt'.
+Day09of2021 >> loadInput [
+	| file lines arrays |
+	input ifNotNil: [ ^self ].
+	file := Smalltalk imageDirectory / 'AdventOfCode' / '2021' / '09.txt'.
 	lines := (file readStream upToEnd splitOn: Character lf) allButLast.
 	arrays := lines collect: [ :l | l asOrderedCollection collect: #digitValue ].
-	surface := Array2D rows: arrays size columns: (arrays at: 1) size tabulate: [ :r :c | (arrays at: r) at: c ].
+	input := Array2D rows: arrays size columns: (arrays at: 1) size tabulate: [ :r :c | (arrays at: r) at: c ]
+]
+
+{ #category : #'as yet unclassified' }
+Day09of2021 >> part1 [
+	| surface lows |
+	self loadInput.
+	surface := input.
 	lows := OrderedCollection new.
 	surface withIndicesDo: [ :v :r :c |
 		| neighbours |
@@ -28,12 +39,10 @@ Day09of2021 >> solveA [
 ]
 
 { #category : #'as yet unclassified' }
-Day09of2021 >> solveB [
-	| file lines arrays surface lows basins isUnexplored 	|
-	file := Smalltalk imageDirectory / '09.txt'.
-	lines := (file readStream upToEnd splitOn: Character lf) allButLast.
-	arrays := lines collect: [ :l | l asOrderedCollection collect: #digitValue ].
-	surface := Array2D rows: arrays size columns: (arrays at: 1) size tabulate: [ :r :c | (arrays at: r) at: c ].
+Day09of2021 >> part2 [
+	| surface lows basins isUnexplored |
+	self loadInput.
+	surface := input.
 	lows := OrderedCollection new.
 	surface withIndicesDo: [ :v :r :c |
 		| neighbours |

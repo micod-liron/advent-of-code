@@ -4,14 +4,25 @@ Solution for Advent of Code 2021 day 7
 Class {
 	#name : #Day07of2021,
 	#superclass : #Object,
+	#instVars : [
+		'input'
+	],
 	#category : #AdventOfCode2021
 }
 
 { #category : #'as yet unclassified' }
-Day07of2021 >> solveA [
-	| file crabs positions distances sum |
-	file := Smalltalk imageDirectory / '07.txt'.
-	crabs := (file readStream upToEnd splitOn: $,) collect: [ :e | e asInteger ].
+Day07of2021 >> loadInput [
+	| file |
+	input ifNotNil: [ ^self ].
+	file := Smalltalk imageDirectory / 'AdventOfCode' / '2021' / '07.txt'.
+	input := (file readStream upToEnd splitOn: $,) collect: [ :e | e asInteger ]
+]
+
+{ #category : #'as yet unclassified' }
+Day07of2021 >> part1 [
+	| crabs positions distances sum |
+	self loadInput.
+	crabs := input.
 	positions := crabs max.
 	distances := crabs collect: [ :c |
 		| steps |
@@ -32,10 +43,10 @@ Day07of2021 >> solveA [
 ]
 
 { #category : #'as yet unclassified' }
-Day07of2021 >> solveB [
-	| file crabs positions distances sum |
-	file := Smalltalk imageDirectory / '07.txt'.
-	crabs := (file readStream upToEnd splitOn: $,) collect: [ :e | e asInteger ].
+Day07of2021 >> part2 [
+	| crabs positions distances sum |
+	self loadInput.
+	crabs := input.
 	positions := crabs max.
 	distances := crabs collect: [ :c |
 		| steps |

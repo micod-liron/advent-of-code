@@ -4,6 +4,9 @@ Solution for Advent of Code 2021 day 10
 Class {
 	#name : #Day10of2021,
 	#superclass : #Object,
+	#instVars : [
+		'input'
+	],
 	#category : #AdventOfCode2021
 }
 
@@ -59,23 +62,26 @@ Day10of2021 >> isValidPair: aPair [
 
 { #category : #'as yet unclassified' }
 Day10of2021 >> loadInput [
-	^(Smalltalk imageDirectory / '10.txt') asFileReference readStream upToEnd allButLast splitOn: Character lf.
+	| file |
+	input ifNotNil: [ ^self ].
+	file := (Smalltalk imageDirectory / 'AdventOfCode' / '2021' / '10.txt') asFileReference.
+	input := file readStream upToEnd allButLast splitOn: Character lf.
 ]
 
 { #category : #'as yet unclassified' }
-Day10of2021 >> solveA [
-	| lines points fails |
-	lines := self loadInput.
+Day10of2021 >> part1 [
+	| points fails |
+	self loadInput.
 	points := { nil -> 0. $) -> 3. $] -> 57. $} -> 1197. $> -> 25137 } asDictionary.
-	fails := lines collect: [ :line | self detectCorruption: line ].
+	fails := input collect: [ :line | self detectCorruption: line ].
 	^fails sum: [ :each | points at: each ]
 ]
 
 { #category : #'as yet unclassified' }
-Day10of2021 >> solveB [
-	| lines incomplete completions points scores |
-	lines := self loadInput.
-	incomplete := lines select: [ :line | (self detectCorruption: line) isNil ].
+Day10of2021 >> part2 [
+	| incomplete completions points scores |
+	self loadInput.
+	incomplete := input select: [ :line | (self detectCorruption: line) isNil ].
 	completions := incomplete collect: [ :line | self calculateCompletion: line ].
 	points := { $( -> 1. $[ -> 2. ${ -> 3. $< -> 4 } asDictionary.
 	scores := completions collect: [ :each |
