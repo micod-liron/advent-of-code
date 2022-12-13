@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'solver'
 	],
-	#category : #AdventOfCode2021
+	#category : #'AdventOfCode2021-Tests'
 }
 
 { #category : #running }
