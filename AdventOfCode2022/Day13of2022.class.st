@@ -15,11 +15,7 @@ Day13of2022 >> compareValue: left with: right [
 	| integer array |
 	integer := left isInteger or: [ right isInteger ].
 	array := left isArray or: [right isArray ].
-	(integer and: [ array not ]) ifTrue: [
-		left < right ifTrue: [ ^-1 ].
-		left = right ifTrue: [ ^0 ].
-		left > right ifTrue: [ ^1 ].
-	].
+	(integer and: [ array not ]) ifTrue: [ ^(left - right) sign ].
 	(integer and: [ array ]) ifTrue: [
 		^self
 			compareValue: (left isInteger ifTrue: [ { left } ] ifFalse: [ left ])
@@ -72,4 +68,15 @@ Day13of2022 >> part1 [
 		(self compareValue: pair first with: pair second) < 1 ifTrue: [ rightOrder add: i ]
 	].
 	^rightOrder sum
+]
+
+{ #category : #parsing }
+Day13of2022 >> part2 [
+	| packets |
+	self loadInput.
+	packets := OrderedCollection new.
+	input do: [ :pair | packets addAll: pair ].
+	packets addAll: #( ((2)) ((6)) ).
+	packets sort: [ :a :b | (self compareValue: a with: b) < 0 ].
+	^(packets indexOf: #((2))) * (packets indexOf: #((6)))
 ]

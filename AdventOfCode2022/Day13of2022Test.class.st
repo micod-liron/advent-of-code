@@ -21,5 +21,5 @@ Day13of2022Test >> testPart1 [
 
 { #category : #tests }
 Day13of2022Test >> testPart2 [
-	self assert: solver part2 equals: 0
+	self assert: solver part2 equals: 19493
 ]
